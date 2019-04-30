@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.gameFieldWrap {
+    display: flex;
+    margin: auto;
+    margin-top: 5rem;
+    flex-direction: column;
+    width: max-content;
+    align-items: center;
+}
+
+.gameField {
+    border: white;
+}
+
+.nameField {
+    margin-top: 1rem;
+}
+
+.iconSelector {
+    margin-top: 1rem;
+}
+
+.startButton {
+    padding: 1rem;
+    background: green;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+.cell {
+    width: 10rem;
+    height: 10rem;
+    font-size: 5rem;
+    text-align: center;
+}
+
+.cellLeftTop {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.cellCenterTop {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.cellRightTop {
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.cellLeftCenter {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.cellCenterCenter {
+    border: 1px solid black;
+}
+
+.cellRightCenter {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+
+.cellLeftBottom {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.cellCenterBottom {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.cellRightBottom {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+

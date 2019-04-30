@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic tac toe</title>
+    <link rel="stylesheet" href="css.css">
+    <script rel="script" src="app.js"></script>
+</head>
+<body>
+    <div class="gameFieldWrap">
+        <table class="gameField" onclick="move(event)">
+            <tr><td id="0" data-cell="0" class="cell cellLeftTop" ></td><td id="1" data-cell="1" class="cell cellCenterTop"></td><td id="2" data-cell="2" class="cell cellRightTop"></td></tr>
+            <tr><td id="3" data-cell="3" class="cell cellLeftCenter"></td><td id="4" data-cell="4" class="cell cellCenterCenter"></td><td id="5" data-cell="5" class="cell cellRightCenter"></td></tr>
+            <tr><td id="6" data-cell="6" class="cell cellLeftBottom"></td><td id="7" data-cell="7" class="cell cellCenterBottom"></td><td id="8" data-cell="8" class="cell cellRightBottom"></td></tr>
+        </table>
+        <input id="nameField" class="nameField" placeholder="input your name">
+        <select id="iconSelector" class="iconSelector">
+            <option>X</option>
+            <option>0</option>
+        </select>
+        <input id="startButton" type="button" class="startButton" value="START" onclick="start()">
+    </div>
+</body>
+</html>
