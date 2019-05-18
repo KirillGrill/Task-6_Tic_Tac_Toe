@@ -34,6 +34,20 @@
     margin-top: 1rem;
 }
 
+.message {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: black;
+    transform: translate(0, -1rem);
+}
+
+.red {
+    color: red;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+
 .cell {
     width: 10rem;
     height: 10rem;

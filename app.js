@@ -7,7 +7,9 @@ var GAME = {
     id: '',
     isCanMove: false,
     yourIcon: '',
-    competitorsIcon: ''
+    competitorsIcon: '',
+    waitState: false,
+    win: ''
 };
 
 function start() {
@@ -31,10 +33,25 @@ function start() {
 
     fetch(GAME.server + GAME.start + '?name=' + GAME.username, init)
         .then(startResponse)
+        .then(()=>{
+            const message = document.getElementById('message');
+            message.innerText = 'Ваш ход!';
+        });
 }
 
 function move(e) {
-    if (!e || !e.target || e.target.tagName !== 'TD' || !GAME.isCanMove) {
+    if (!e || !e.target || e.target.tagName !== 'TD' || !GAME.isCanMove ) {
+        return;
+    }
+
+    if(GAME.waitState){
+        console.log('Ожидание хода противника...');
+        return;
+    }
+
+    if(GAME.win !== ''){
+        const message = document.getElementById('message');
+        message.classList.add('red');
         return;
     }
     e.target.innerHTML = GAME.yourIcon;
@@ -42,7 +59,7 @@ function move(e) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    console.log({name: GAME.username, id: GAME.id, move: cell});
+   //console.log({name: GAME.username, id: GAME.id, move: cell});
     let body = JSON.stringify({name: GAME.username, id: GAME.id, move: cell});
 
     let init = {
@@ -54,11 +71,22 @@ function move(e) {
     fetch(GAME.server + GAME.makeMove, init)
         .then(makeMoveResponse)
         .then(waitMove)
-
-
+        .catch(()=>{
+            if(GAME.win !== ''){
+                const message = document.getElementById('message');
+                message.innerText = GAME.win;
+            }else {
+                alert("Что-то пошло не так")
+            }
+        });
 }
 
 function waitMove () {
+    GAME.waitState = true;
+
+    const message = document.getElementById('message');
+    message.innerText = 'Ожидание хода противника...';
+
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -71,7 +99,21 @@ function waitMove () {
     };
 
     fetch(GAME.server + GAME.waitMove, init)
-        .then(waitMoveResponse);
+        .then(waitMoveResponse)
+        .catch(()=>{
+            if(GAME.win !== ''){
+                const message = document.getElementById('message');
+                message.innerText = GAME.win;
+            }else {
+                alert("Что-то пошло не так")
+            }
+        })
+        .then(()=> {
+            GAME.waitState = false;
+            if(GAME.win === '') {
+                message.innerText = 'Ваш ход!';
+            }
+        });
 }
 
 async function startResponse(response) {
@@ -83,36 +125,37 @@ async function startResponse(response) {
     let data = json.data;
     GAME.isCanMove = data.canMove;
     GAME.id = data.id;
-    console.log(json);
+    //console.log(json);
 }
 
 async function makeMoveResponse(response) {
+
     let json = await response.json();
-    console.log(json);
+    //console.log(json);
     if(!json.ok){
         console.log(json.reason);
         return;
     }
 
     let data = json.data;
-    if(data.win) {
+    if(data.win !== undefined) {
         switch (data.win) {
             case 0:
-                alert('You lose');
-                break;
+                GAME.win = 'You lose';
+                return Promise.reject();
             case 1:
-                alert('You win');
-                break;
+                GAME.win = 'You win';
+                return Promise.reject();
             case 2:
-                alert('Dead heat');
-                break;
+                GAME.win = 'Dead heat';
+                return Promise.reject();
         }
     }
 }
 
 async function waitMoveResponse(response) {
     let json = await response.json();
-    console.log(json);
+   // console.log(json);
     if(!json.ok){
         console.log(json.reason);
         return;
@@ -121,18 +164,17 @@ async function waitMoveResponse(response) {
     const competitorsMove = document.getElementById(`${data.move}`);
     competitorsMove.innerHTML = GAME.competitorsIcon;
 
-    if(data.win) {
+    if(data.win !== undefined) {
         switch (data.win) {
             case 0:
-                alert('You lose');
-                break;
+                GAME.win = 'You lose';
+                return Promise.reject();
             case 1:
-                alert('You win');
-                break;
+                GAME.win = 'You win';
+                return Promise.reject();
             case 2:
-                alert('Dead heat');
-                break;
+                GAME.win = 'Dead heat';
+                return Promise.reject();
         }
     }
-
 }
